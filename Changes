@@ -1,4 +1,8 @@
 Revision history for Perl extension Net::DNSBLLookup.
+0.03  Fri Nov 14 2003
+	- Removed osirusoft.com - no longer operational due to Spammer
+          DOS attacks
+	- Add cbl.abuseat.org
 
 0.02  Thu Nov 6 2003
 	- Fixed warning messages (Rob Brown)

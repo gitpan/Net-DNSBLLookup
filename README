@@ -1,4 +1,4 @@
-Net::OpenProxyLookup version 0.01
+Net::OpenProxyLookup version 0.03
 =================================
 
 This module queries the major Open Proxy DNS Blocklists, including Sorbs,
@@ -22,6 +22,10 @@ To install this module type the following:
    make test
    make install
 
+EXAMPLE
+
+A sample script is included in example/proxylookup.pl
+
 DEPENDENCIES
 
 This module requires these other modules and libraries:
@@ -37,4 +41,3 @@ support@maxmind.com
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself. 
-

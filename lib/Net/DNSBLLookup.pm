@@ -8,7 +8,7 @@ use AutoLoader qw(AUTOLOAD);
 use vars qw($VERSION @EXPORT @ISA);
 use Net::DNS;
 use IO::Select;
-$VERSION = '0.02';
+$VERSION = '0.03';
 @ISA = qw(Exporter);
 
 @EXPORT = qw(DNSBLLOOKUP_OPEN_RELAY DNSBLLOOKUP_DYNAMIC_IP
@@ -34,16 +34,20 @@ use constant DNSBLLOOKUP_UNKNOWN => 14;
 require Net::DNSBLLookup::Result;
 
 %Net::DNSBLLookup::dns_servers = (
-		   'relays.osirusoft.com' => {
-		     '127.0.0.2' => DNSBLLOOKUP_OPEN_RELAY,
-		     '127.0.0.3' => DNSBLLOOKUP_DYNAMIC_IP, # dialup
-		     '127.0.0.4' => DNSBLLOOKUP_CONFIRMED_SPAM,
-		     '127.0.0.5' => DNSBLLOOKUP_SMARTHOST,
-		     '127.0.0.6' => DNSBLLOOKUP_SPAMHOUSE,
-		     '127.0.0.7' => DNSBLLOOKUP_LISTSERVER,
-		     '127.0.0.8' => DNSBLLOOKUP_FORMMAIL,
-		     '127.0.0.9' => DNSBLLOOKUP_OPEN_PROXY,
-		   },
+
+# no longer implemented, since osirusoft.com was taken offline due
+# to DDos attacks from spammers
+
+#		   'relays.osirusoft.com' => {
+#		     '127.0.0.2' => DNSBLLOOKUP_OPEN_RELAY,
+#		     '127.0.0.3' => DNSBLLOOKUP_DYNAMIC_IP, # dialup
+#		     '127.0.0.4' => DNSBLLOOKUP_CONFIRMED_SPAM,
+#		     '127.0.0.5' => DNSBLLOOKUP_SMARTHOST,
+#		     '127.0.0.6' => DNSBLLOOKUP_SPAMHOUSE,
+#		     '127.0.0.7' => DNSBLLOOKUP_LISTSERVER,
+#		     '127.0.0.8' => DNSBLLOOKUP_FORMMAIL,
+#		     '127.0.0.9' => DNSBLLOOKUP_OPEN_PROXY,
+#		   },
 		   'dnsbl.sorbs.net' => {
 		     '127.0.0.2' => DNSBLLOOKUP_OPEN_PROXY_HTTP,
 		     '127.0.0.3' => DNSBLLOOKUP_OPEN_PROXY_SOCKS,
@@ -74,6 +78,12 @@ require Net::DNSBLLookup::Result;
 		     # todo deal with bitmasks properly
 		     # see http://opm.blitzed.org/info
 		     return DNSBLLOOKUP_OPEN_PROXY;
+		   },
+		   'cbl.abuseat.org' => {
+		     '127.0.0.2' => DNSBLLOOKUP_OPEN_PROXY,
+		   },
+		   'psbl.surriel.com' => {
+		     '127.0.0.2' => DNSBLLOOKUP_OPEN_PROXY,
 		   },
 		   );
 
@@ -145,7 +155,7 @@ Net::DNSBLLookup - Lookup IP Address in Open Proxy and SPAM DNS Blocklists
 =head1 ABSTRACT
 
 This module queries the major Open Proxy DNS Blocklists, including Sorbs,
-Easynet, NJABL, DSBL, and Blitzed.  Open Proxies are servers that allow
+Easynet, NJABL, DSBL, Blitzed, CBL and PSBL.  Open Proxies are servers that allow
 hackers to mask their true IP address.  Some of these blocklists also contain 
 hosts that have been known to send spam.  This module distinguishes the
 results between Open Proxy and Spam/Open Relay servers.
@@ -184,7 +194,7 @@ seconds then returns the results:
 
 L<Net::DNSBLLookup::Result>
 
-There is a free credit card fraud scoring service that
+There is a free credit card fraud prevention service that
 uses this module located at
 L<http://www.maxmind.com/app/ccv>
 
