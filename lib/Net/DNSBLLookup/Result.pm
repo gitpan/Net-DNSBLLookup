@@ -55,10 +55,10 @@ sub num_proxies_responded {
 
 sub breakdown {
   my ($self) = @_;
-  my ($total_spam, $total_proxy, $total_unknown);
+  my ($total_spam, $total_proxy, $total_unknown) = (0,0,0);
   return unless exists $self->{results};
   while (my ($dnsbl, $v) = each %{$self->{results}}) {
-    my ($is_spam, $is_proxy, $is_unknown);
+    my ($is_spam, $is_proxy, $is_unknown) = (0,0,0);
     for my $retval (@$v) {
       my $result_type = $result_type{$retval};
       if ($result_type == DNSBLLOOKUP_RESULT_OPEN_PROXY) {
@@ -91,7 +91,7 @@ Net::DNSBLLookup::Result - Analyze the DNS Blocklist lookup results
   use Net::DNSBLLookup;
   my $dnsbl = Net::DNSBLLookup->new(timeout => 5);
   my $res = $dnsbl->lookup($ip_addr);
-  my ($proxy, $span, $unknown) = $res->breakdown;
+  my ($proxy, $spam, $unknown) = $res->breakdown;
   my $num_responded = $res->num_proxies_responded;
 
 =head1 DESCRIPTION
@@ -110,7 +110,7 @@ Returns the breakdown between the number of Open Proxy and Spam/Open Relay hosts
 It also returns the number of hits that are unknown - for example the DSBL blocklist
 lumps all Open Proxy and Spam results into one code.
 
-  ($proxy, $span, $unknown) = $res->breakdown;
+  ($proxy, $spam, $unknown) = $res->breakdown;
 
 =item num_responded
 

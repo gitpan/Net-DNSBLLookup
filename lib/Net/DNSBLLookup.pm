@@ -8,7 +8,7 @@ use AutoLoader qw(AUTOLOAD);
 use vars qw($VERSION @EXPORT @ISA);
 use Net::DNS;
 use IO::Select;
-$VERSION = '0.01';
+$VERSION = '0.02';
 @ISA = qw(Exporter);
 
 @EXPORT = qw(DNSBLLOOKUP_OPEN_RELAY DNSBLLOOKUP_DYNAMIC_IP
@@ -110,7 +110,6 @@ sub lookup {
     my @ready = $sel->can_read($self->{timeout});
     last unless @ready;
     foreach my $sock (@ready) {
-#      if ($sock == $bgsock) {
       my $packet = $res->bgread($sock);
       my ($question) = $packet->question;
       next unless $question;
@@ -140,7 +139,7 @@ Net::DNSBLLookup - Lookup IP Address in Open Proxy and SPAM DNS Blocklists
   use Net::DNSBLLookup;
   my $dnsbl = Net::DNSBLLookup->new(timeout => 5);
   my $res = $dnsbl->lookup($ip_addr);
-  my ($proxy, $span, $unknown) = $res->breakdown;
+  my ($proxy, $spam, $unknown) = $res->breakdown;
   my $num_responded = $res->num_proxies_responded;
 
 =head1 ABSTRACT
