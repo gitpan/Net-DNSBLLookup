@@ -1,0 +1,6 @@
+Revision history for Perl extension Net::DNSBLLookup.
+
+0.01  Mon Jul  7 13:44:51 2003
+	- original version; created by h2xs 1.22 with options
+		-X -n Net::DNSBLLookup -b 5.5.0
+
