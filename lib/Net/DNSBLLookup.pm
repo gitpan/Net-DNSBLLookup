@@ -4,11 +4,10 @@ use 5.005;
 use strict;
 
 require Exporter;
-use AutoLoader qw(AUTOLOAD);
 use vars qw($VERSION @EXPORT @ISA);
 use Net::DNS;
 use IO::Select;
-$VERSION = '0.03';
+$VERSION = '0.05';
 @ISA = qw(Exporter);
 
 @EXPORT = qw(DNSBLLOOKUP_OPEN_RELAY DNSBLLOOKUP_DYNAMIC_IP
@@ -70,15 +69,15 @@ require Net::DNSBLLookup::Result;
 		     '127.0.0.8' => DNSBLLOOKUP_FORMMAIL,
 		     '127.0.0.9' => DNSBLLOOKUP_OPEN_PROXY,
 		   },
-		   'list.dsbl.org' => {
-		     '127.0.0.2' => DNSBLLOOKUP_UNKNOWN,
-		   },
-		   'opm.blitzed.org' => sub {
-		     my ($ip) = @_;
-		     # todo deal with bitmasks properly
-		     # see http://opm.blitzed.org/info
-		     return DNSBLLOOKUP_OPEN_PROXY;
-		   },
+#		   'list.dsbl.org' => {
+#		     '127.0.0.2' => DNSBLLOOKUP_UNKNOWN,
+#		   },
+#		   'opm.blitzed.org' => sub {
+#		     my ($ip) = @_;
+#		     # todo deal with bitmasks properly
+#		     # see http://opm.blitzed.org/info
+#		     return DNSBLLOOKUP_OPEN_PROXY;
+#		   },
 		   'cbl.abuseat.org' => {
 		     '127.0.0.2' => DNSBLLOOKUP_OPEN_PROXY,
 		   },
@@ -92,7 +91,7 @@ sub new {
   my $self = { @_ };
   bless $self, $class;
   unless (exists $self->{zones}) {
-    @{$self->{zones}} = grep !/^relays.osirusoft.com$/, keys %Net::DNSBLLookup::dns_servers;
+    @{$self->{zones}} = grep !/^relays\.osirusoft\.com$/, keys %Net::DNSBLLookup::dns_servers;
   }
   $self->{timeout} ||= 5;
   return $self;
@@ -131,7 +130,6 @@ sub lookup {
 	$result->add($dnsbl, $rr->address);
       }
       $sel->remove($sock);
-      $sock = undef;
     }
   }
   return $result;

@@ -1,4 +1,10 @@
 Revision history for Perl extension Net::DNSBLLookup.
+0.05  Thu Apr 2 2009
+        - Removed opm.blitzed.org
+            http://wiki.blitzed.org/OPM_status ( Boris Zentner )
+        - Removed list.dsbl.org it is gone
+            read the full story at http://dsbl.org/node/3 ( Boris Zentner )
+        - Removed AutoLoader ( Boris Zentner )
 0.03  Fri Nov 14 2003
 	- Removed osirusoft.com - no longer operational due to Spammer
           DOS attacks
